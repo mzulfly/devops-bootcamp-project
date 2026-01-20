@@ -1,70 +1,31 @@
-# ------------------------------
-# Variables
-# ------------------------------
-variable "public_subnet_id" {}
-variable "private_subnet_id" {}
-
-# ------------------------------
-# Elastic IP for Web Server
-# ------------------------------
-# Create Elastic IP
-resource "aws_eip" "web_eip" {
-  # No 'vpc' attribute needed anymore
+data "aws_ssm_parameter" "ubuntu_latest" {
+  name = "/aws/service/canonical/ubuntu/server/noble/stable/current/amd64/hvm/ebs-gp3/ami-id"
 }
 
-# Associate it to Web Server
-resource "aws_eip_association" "web_eip_assoc" {
-  instance_id   = aws_instance.web_server.id
-  allocation_id = aws_eip.web_eip.id
-}
-
-# ------------------------------
-# Web Server (Public)
-# ------------------------------
+# Web server → public subnet
 resource "aws_instance" "web_server" {
-  ami                    = "ami-0abcdef1234567890"  # Ubuntu 24.04 AMI ID, update with real one for your region
-  instance_type          = "t3.micro"
-  subnet_id              = var.public_subnet_id
-  private_ip             = "10.0.0.5"
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
-
-  associate_public_ip_address = true  # needed to attach Elastic IP
-
-  tags = {
-    Name = "WebServer"
-  }
+  ami                         = data.aws_ssm_parameter.ubuntu_latest.value # replace with your custom web AMI
+  instance_type               = "t3.micro"
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [aws_security_group.web_sg.id]
+  tags = { Name = "web-server" }
 }
 
-# ------------------------------
-# Ansible Controller (Private)
-# ------------------------------
+# Ansible controller → private subnet
 resource "aws_instance" "ansible_controller" {
-  ami                    = "ami-0abcdef1234567890"  # Ubuntu 24.04 AMI
-  instance_type          = "t3.micro"
-  subnet_id              = var.private_subnet_id
-  private_ip             = "10.0.0.135"
-  vpc_security_group_ids = [aws_security_group.private_sg.id]
-
-  associate_public_ip_address = false  # Private only
-
-  tags = {
-    Name = "AnsibleController"
-  }
+  ami                         = data.aws_ssm_parameter.ubuntu_latest.value # replace with custom AMI
+  instance_type               = "t3.micro"
+  associate_public_ip_address = false
+  vpc_security_group_ids      = [aws_security_group.private_sg.id]
+  tags = { Name = "ansible-controller" }
 }
 
-# ------------------------------
-# Monitoring Server (Private)
-# ------------------------------
+# Monitoring server → private subnet
 resource "aws_instance" "monitoring_server" {
-  ami                    = "ami-0abcdef1234567890"  # Ubuntu 24.04 AMI
-  instance_type          = "t3.micro"
-  subnet_id              = var.private_subnet_id
-  private_ip             = "10.0.0.136"
-  vpc_security_group_ids = [aws_security_group.private_sg.id]
-
-  associate_public_ip_address = false  # Private only
-
-  tags = {
-    Name = "MonitoringServer"
-  }
+  ami                         = data.aws_ssm_parameter.ubuntu_latest.value # replace with custom AMI
+  instance_type               = "t3.micro"
+  associate_public_ip_address = false
+  vpc_security_group_ids      = [aws_security_group.private_sg.id]
+  tags = { Name = "monitoring-server" }
 }
+
