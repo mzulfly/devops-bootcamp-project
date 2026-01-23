@@ -1,0 +1,88 @@
+---
+- name: Deploy my-devops-project via Docker Compose
+  hosts: web
+  become: yes
+
+  vars:
+    app_dir: "/opt/my-devops-project"
+    git_repo: "https://github.com/Infratify/lab-final-project"
+    docker_image_uri: "623946091318.dkr.ecr.ap-southeast-1.amazonaws.com/devops-bootcamp/final-project-mohdzulkefly:latest"
+    app_port: 80
+    user_name: "Mohd Zulkefly Abd Latif"
+    app_env: "production"
+
+  tasks:
+
+    # 1. Install required packages
+    - name: Install git, docker, and docker-compose
+      ansible.builtin.apt:
+        name:
+          - git
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: yes
+
+    # 2. Start Docker service
+    - name: Ensure Docker is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # 3. Create application directory
+    - name: Create application directory
+      ansible.builtin.file:
+        path: "{{ app_dir }}"
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    # 4. Clone GitHub repo
+    - name: Clone my-devops-project repository
+      ansible.builtin.git:
+        repo: "{{ git_repo }}"
+        dest: "{{ app_dir }}"
+        version: main
+        force: yes
+
+    # 5. Create .env file
+    - name: Create .env file
+      ansible.builtin.copy:
+        dest: "{{ app_dir }}/.env"
+        content: |
+          APP_PORT={{ app_port }}
+          USER_NAME="{{ user_name }}"
+          APP_ENV={{ app_env }}
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    # 6. Create docker-compose.yml file
+    - name: Create docker-compose.yml
+      ansible.builtin.copy:
+        dest: "{{ app_dir }}/docker-compose.yml"
+        content: |
+          version: "3.9"
+
+          services:
+            web:
+              image: {{ docker_image_uri }}
+              ports:
+                - "${APP_PORT}:80"
+              env_file:
+                - .env
+              restart: always
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    # 7. Deploy container via Docker Compose
+    - name: Deploy container with Docker Compose
+      ansible.builtin.shell: |
+        cd {{ app_dir }}
+        docker-compose up -d --build
+      args:
+        executable: /bin/bash
+
