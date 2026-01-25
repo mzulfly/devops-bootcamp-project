@@ -80,11 +80,15 @@ By completing this project, the following DevOps competencies are demonstrated:
   - NAT Gateway (Private Subnet)
 
 3️⃣ Security Groups
-Web Server Security Group (devops-public-sg)
+
+* Web Server Security Group (devops-public-sg)
+
 Port	Source
 80	0.0.0.0/0
 22	VPC CIDR
-Ansible & Monitoring Security Group (devops-private-sg)
+
+* Ansible & Monitoring Security Group (devops-private-sg)
+
 Port	Source
 22	VPC CIDR
 
