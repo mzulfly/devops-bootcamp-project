@@ -33,7 +33,7 @@ By completing this project, the following DevOps competencies are demonstrated:
 
 # High-Level Architecture
 
-Internet
+ Internet
    |
    | HTTP (80)
    v
@@ -62,23 +62,23 @@ Ansible Controller (Private Subnet)
 
 # Technology Stack
 
-x Cloud Provider: AWS (ap-southeast-1)
+1. Cloud Provider: AWS (ap-southeast-1)
 
-x IaC: Terraform
+2. IaC: Terraform
 
-x Configuration Management: Ansible
+3. Configuration Management: Ansible
 
-x Containers: Docker
+4. Containers: Docker
 
-x Monitoring: Prometheus, Grafana
+5. Monitoring: Prometheus, Grafana
 
-x Registry: Amazon ECR
+6. Registry: Amazon ECR
 
-x DNS & Security: Cloudflare
+7. DNS & Security: Cloudflare
 
-x CI/CD: GitHub Actions (Documentation)
+8. CI/CD: GitHub Actions (Documentation)
 
-x OS: Ubuntu 24.04
+9. OS: Ubuntu 24.04
 
 
 
