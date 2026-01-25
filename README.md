@@ -83,156 +83,153 @@ By completing this project, the following DevOps competencies are demonstrated:
 
 * Web Server Security Group (devops-public-sg)
 
-Port	Source
-80	0.0.0.0/0
-22	VPC CIDR
+  - Port : 80	Source : 0.0.0.0/0
+	
+  - Port : 22	Sorce : VPC CIDR
 
 * Ansible & Monitoring Security Group (devops-private-sg)
 
-Port	Source
-22	VPC CIDR
+  - Port : 22	Source : VPC CIDR
 
 4️⃣ EC2 Instances
-Server	        Role	             Subnet	Private IP     Public IP
-Server 1	Web Server	     Public	10.0.0.5       Elastic IP
-Server 2	Ansible Controller   Private	10.0.0.135	❌
-Server 3	Monitoring Server    Private	10.0.0.136	❌
+ 
+ * Web Server/	         Public Subnet/	  Ip 10.0.0.5/       Elastic IP
+ * Ansible Controller/   Private Subnet/	Ip 10.0.0.135/	     ❌
+ * Monitoring Server/    Private Subnet/	Ip 10.0.0.136/	     ❌
 
 5️⃣ Container Registry
 
 Amazon ECR Repository
-devops-bootcamp/final-project-yourname
+devops-bootcamp/final-project-mohdzulkefly
 
-Application & Configuration Management (Ansible)
+# ⚙ Application & Configuration Management (Ansible)
+
 Web Application
 
-Repository:
-https://github.com/Infratify/lab-final-project
+- Repository:
+  https://github.com/Infratify/lab-final-project
 
-Application Name: my-devops-project
+- Application Name: my-devops-project
 
-Deployment Method: Docker container
+- Deployment Method: Docker container
 
-Code modification: ❌ Not required
+- Code modification: ❌ Not required
 
 Web Server Configuration
 
-Using Ansible:
+* Using Ansible:
 
-Install Docker Engine
+  - Install Docker Engine
 
-Build or pull Docker image
+  - Build or pull Docker image
 
-Run my-devops-project container
+  - Run my-devops-project container
 
-Expose application on HTTP port 80
+  - Expose application on HTTP port 80
 
-Access via web.yourdomain.com
+  - Access via mzulfly.com
 
 Monitoring Server Configuration
 
-Using Ansible:
+* Using Ansible:
 
-Install Docker Engine
+  - Install Docker Engine
 
-Deploy:
+* Deploy:
 
-Prometheus
+  - Prometheus
 
-Grafana
+  - Grafana
 
-Configure Prometheus to scrape metrics from the web server
-
-📊 Monitoring Implementation
-Prometheus Metrics
-
-CPU Usage
-
-Memory Usage
-
-Disk Usage
-
-Grafana Dashboards
-
-Grafana visualizes:
-
-CPU utilization
-
-Memory consumption
-
-Disk usage
-
-Access:
-
-monitoring.yourdomain.com
-
-Only accessible via Cloudflare Tunnel
-
-🔐 Access & Connectivity
-AWS Systems Manager (SSM)
-
-Enabled on all EC2 instances
-
-Used for troubleshooting and manual access
-
-Ansible Connectivity
-
-SSH-based connectivity
-
-SSM-based Ansible is optional (not required)
-
-🌍 Domain & Cloudflare Setup
-Web Application
-
-Domain: web.yourdomain.com
-
-Points to Web Server Elastic IP
-
-Cloudflare SSL Mode: Flexible
-
-Monitoring (Grafana)
-
-Domain: monitoring.yourdomain.com
-
-Access via Cloudflare Tunnel
-
-Monitoring server has no public exposure
-
-🔁 CI/CD (GitHub Actions)
-Mandatory
-
-GitHub Actions used to deploy documentation to GitHub Pages
-
-Bonus
-
-Build Docker image
-
-Push image to Amazon ECR
-
-Pull & run container on web server
+* Configure Prometheus to scrape metrics from the web server
 
 
-devops-bootcamp-project/
-├── terraform/
-│   └── file.tf
-├── ansible/
-│   ├── file.yml
-└── README.md
+# 📊 Monitoring Implementation
+* Prometheus Metrics
+
+  - CPU Usage
+
+  - Memory Usage
+
+  - Disk Usage
+
+* Grafana Dashboards
+
+  - Grafana visualizes:
+
+    I. CPU utilization
+
+    II. Memory consumption
+
+    III. Disk usage
+
+ - Access:
+
+    I. monitoring.mzulfly.com
+
+    II. Only accessible via Cloudflare Tunnel
+
+# 🔐 Access & Connectivity
+* AWS Systems Manager (SSM)
+
+  - Enabled on all EC2 instances
+
+  - Used for troubleshooting and manual access
+
+* Ansible Connectivity
+
+  - SSH-based connectivity
+
+  - SSM-based Ansible is optional (not required)
 
 
-🚀 Future Enhancements
 
-Alertmanager integration
+# 🌍 Domain & Cloudflare Setup
 
-HTTPS termination using Nginx
+* Web Application
 
-Full CI/CD pipeline for application deployment
+  - Domain: mzulfly.com
 
-Infrastructure security hardening
+  - Points to Web Server Elastic IP
 
-Migration to Kubernetes
+  - Cloudflare SSL Mode: Flexible
 
-👤 Author
+* Monitoring (Grafana)
+
+  - Domain: monitoring.mzulfly.com
+
+  - Access via Cloudflare Tunnel
+
+  - Monitoring server has no public exposure
+
+# 🔁 CI/CD (GitHub Actions)
+
+* Mandatory
+
+  - GitHub Actions used to deploy documentation to GitHub Pages
+
+* Bonus
+
+  - Build Docker image
+
+  - Push image to Amazon ECR
+
+  - Pull & run container on web server
+
+
+# 🚀 Future Enhancements
+
+    a) Alertmanager integration
+
+    b) HTTPS termination using Nginx
+
+    c) Full CI/CD pipeline for application deployment
+
+    d) Infrastructure security hardening
+
+    e) Migration to Kubernetes
+
+# 👤 Author
 
 Mohd Zulkefly
 DevOps Bootcamp Participant
