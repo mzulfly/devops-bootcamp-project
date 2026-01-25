@@ -28,7 +28,6 @@ By completing this project, the following DevOps competencies are demonstrated:
 
 6. Publish technical documentation using GitHub Pages
 
-7. (Bonus) CI/CD integration and container image management using AWS ECR
 
 # Technology Stack
 
