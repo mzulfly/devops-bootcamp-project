@@ -30,36 +30,6 @@ By completing this project, the following DevOps competencies are demonstrated:
 
 7. (Bonus) CI/CD integration and container image management using AWS ECR
 
-
-# High-Level Architecture
-
- Internet
-   |
-   | HTTP (80)
-   v
-Cloudflare DNS
-   |
-   | web.yourdomain.com
-   v
-Web Server (Public Subnet)
-- Docker
-- my-devops-project container
-- Elastic IP
-   |
-   | Metrics (9100)
-   v
-Monitoring Server (Private Subnet)
-- Prometheus
-- Grafana
-- Access via Cloudflare Tunnel
-   ^
-   |
-   | SSH (22)
-Ansible Controller (Private Subnet)
-- Ansible
-- Terraform
-
-
 # Technology Stack
 
 1. Cloud Provider: AWS (ap-southeast-1)
@@ -86,28 +56,28 @@ Ansible Controller (Private Subnet)
 
 1️⃣ Terraform State
 
-Backend: Amazon S3
+* Backend: Amazon S3
 
-Bucket Name:
-devops-bootcamp-terraform-yourname
+* Bucket Name:
+  - devops-bootcamp-terraform-yourname
 
-Region: ap-southeast-1
+* Region: ap-southeast-1
 
 2️⃣ Network Architecture
 
-VPC: 10.0.0.0/24 (devops-vpc)
+* VPC: 10.0.0.0/24 (devops-vpc)
 
-Subnets
+* Subnets
 
-Public Subnet: 10.0.0.0/25
+  - Public Subnet: 10.0.0.0/25
 
-Private Subnet: 10.0.0.128/25
+  - Private Subnet: 10.0.0.128/25
 
-Gateways
+* Gateways
      
-Internet Gateway (Public Subnet)
+  - Internet Gateway (Public Subnet)
 
-NAT Gateway (Private Subnet)
+  - NAT Gateway (Private Subnet)
 
 3️⃣ Security Groups
 Web Server Security Group (devops-public-sg)
