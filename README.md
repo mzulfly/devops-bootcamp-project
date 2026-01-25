@@ -82,7 +82,8 @@ Ansible Controller (Private Subnet)
 
 
 
-Infrastructure Design (Terraform)
+# Infrastructure Design (Terraform)
+
 1️⃣ Terraform State
 
 Backend: Amazon S3
