@@ -1,0 +1,45 @@
+- name: Deploy Prometheus and Grafana
+  hosts: monitoring
+  become: yes
+
+  tasks:
+    - name: Create Prometheus config directory
+      file:
+        path: /opt/prometheus
+        state: directory
+
+    - name: Create Prometheus config
+      copy:
+        dest: /opt/prometheus/prometheus.yml
+        content: |
+          global:
+            scrape_interval: 15s
+
+          scrape_configs:
+            - job_name: "prometheus"
+              static_configs:
+                - targets: ["localhost:9090"]
+
+            - job_name: "web-server"
+              static_configs:
+                - targets: ["10.0.0.5:9100"]
+
+    - name: Run Prometheus
+      docker_container:
+        name: prometheus
+        image: prom/prometheus:latest
+        state: started
+        restart_policy: always
+        volumes:
+          - /opt/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+        ports:
+          - "9090:9090"
+
+    - name: Run Grafana
+      docker_container:
+        name: grafana
+        image: grafana/grafana:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "3000:3000"
