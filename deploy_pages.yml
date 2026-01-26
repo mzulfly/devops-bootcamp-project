@@ -2,32 +2,45 @@ name: Deploy Styled GitHub Pages from README
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repo
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      # Install Pandoc
       - name: Install Pandoc
         run: sudo apt-get update && sudo apt-get install -y pandoc
 
-      # Convert README.md to index.html with basic CSS
-      - name: Convert README.md to HTML
+      - name: Build HTML from README
         run: |
-          pandoc README.md -s -o index.html \
-          --metadata title="My GitHub Page" \
-          --css "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css" \
-          --metadata pagetitle="My GitHub Page"
+          mkdir public
+          pandoc README.md -s -o public/index.html \
+            --metadata title="My GitHub Page" \
+            --css "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css"
 
-      # Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          path: public
+
+      - name: Deploy
+        uses: actions/deploy-pages@v4
+
+
