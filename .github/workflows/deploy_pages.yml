@@ -1,25 +1,35 @@
-name: Deploy to GitHub Pages
+name: Deploy Styled GitHub Pages from README
 
 on:
   push:
     branches:
-      - main   # Run this workflow when code is pushed to main
+      - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      # Checkout repo
+      - uses: actions/checkout@v3
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
+      # Install Pandoc
+      - name: Install Pandoc
+        run: sudo apt-get update && sudo apt-get install -y pandoc
 
-      - name: Upload artifact for deployment
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: .   # Deploy the whole repo (or change path to your folder)
+      # Convert README.md to index.html with basic CSS
+      - name: Convert README.md to HTML
+        run: |
+          pandoc README.md -s -o index.html \
+          --metadata title="My GitHub Page" \
+          --css "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css" \
+          --metadata pagetitle="My GitHub Page"
 
+      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+
+
